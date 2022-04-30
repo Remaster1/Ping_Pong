@@ -97,7 +97,7 @@ while game:
                 racket1.to_spawn(30,200)
                 racket2.to_spawn(520,200)
             score_disp = font_score.render('{}:{}'.format(str(score1),str(score2)),True,(0,0,0))
-            window.blit(score_disp,(300,0))
+            window.blit(score_disp,(280,0))
             racket1.update_l()
             racket2.update_r()
             ball.reset()
