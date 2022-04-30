@@ -1,7 +1,6 @@
 
 from pygame import *
-
-
+from check_files import check_files
 #inzialate fonts and mixer
 font.init()
 mixer.init()
@@ -17,15 +16,16 @@ finish = False
 back = (200,255,255)
 win_width = 600
 win_height = 500
+required_files = ['images//ball.png','images//racket.png','sound_effects//racket_hit.wav','sound_effects//wall.wav']
 #audio
-racket_hit = mixer.Sound('audio\\racket_hit.wav')
-wall = mixer.Sound('audio\\wall.wav')
+racket_hit = mixer.Sound('sound_effects//racket_hit.wav')
+wall = mixer.Sound('sound_effects//wall.wav')
 #fonts
 font_score = font.Font(None,35)
-#izializate window
-window = display.set_mode((win_width,win_height))
-window.fill(back)
-clock = time.Clock()
+check_files(required_files)
+
+
+
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, player_speed, size_x, size_y):
         sprite.Sprite.__init__(self)
@@ -54,18 +54,22 @@ class Player(GameSprite):
         if keys[K_DOWN] and self.rect.y < win_width - 80:
             self.rect.y += self.speed
 class Bot(GameSprite):
-    def bot_on(self,object_s):
-        if self.rect.y > object_s.rect.y:
+    def bot_on(self,target):
+        if self.rect.y > target.rect.y:
             self.rect.y -= self.speed
-        if self.rect.y < object_s.rect.y:
+        if self.rect.y < target.rect.y:
             self.rect.y += self.speed
+
 # objects
-racket1 = Player('sprites\\racket.png', 30, 200, 4, 50, 150) 
-racket2 = Player('sprites\\racket.png', 520, 200, 4, 50, 150)
-ball = GameSprite('sprites\\tenis_ball.png', 200, 200, 4, 50, 50)
+racket1 = Player('images//racket.png', 30, 200, 4, 50, 150) 
+racket2 = Player('images//racket.png', 520, 200, 4, 50, 150)
+ball = GameSprite('images//ball.png', 200, 200, 4, 50, 50)
 
-    
-
+#izializate window
+display.set_caption('Pong')
+window = display.set_mode((win_width,win_height))
+window.fill(back)
+clock = time.Clock()
 
 while game:
     for e in event.get():
@@ -92,8 +96,6 @@ while game:
                 ball.to_spawn(200,200)
                 racket1.to_spawn(30,200)
                 racket2.to_spawn(520,200)
-                
-            
             score_disp = font_score.render('{}:{}'.format(str(score1),str(score2)),True,(0,0,0))
             window.blit(score_disp,(300,0))
             racket1.update_l()
