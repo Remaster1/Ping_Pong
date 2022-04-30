@@ -1,2 +1,2 @@
 # Ping_Pong
-This is Ping Pong.This original game was created by Atari.
+This is Pong.This original game was created by Atari.
